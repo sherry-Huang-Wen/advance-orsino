@@ -16,7 +16,10 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            System.out.println("==========1.用 Java POST 給 Spring Boot submit櫃台回傳結果==========");
+            // ========================== 
+            // A. 用 Java POST 給 Spring Boot submit櫃台回傳結果
+            // ==========================
+            System.out.println("==========A.用 Java POST 給 Spring Boot submit櫃台再回傳結果==========");
             System.out.println("----POST測試開始------");
             //開啟瀏覽器
             OkHttpClient client2 = new OkHttpClient();
@@ -43,7 +46,10 @@ public class Main {
             System.out.println("----POST測試結束------");
 
             // ==========================
-            System.out.println("==========2.Get撈取Spring Boot API server資料Hello櫃台==========");
+            // B. 用 Java Get 撈取 Spring Boot API server 資料 Hello櫃台
+            System.out.println("");            
+            System.out.println("==========B.用 Java 撈取 Spring Boot API server Hello櫃台==========");
+            // ==========================            
 
             String url = "http://localhost:8080/hello";
             OkHttpClient client1 = new OkHttpClient(); // 建立瀏覽器
@@ -56,7 +62,9 @@ public class Main {
             System.out.println(end);
 
             // ==========================
-            System.out.println("==========3.(用http讀取)撈取氣象局 API 資料==========");
+            // C1. 用 Java http 撈取氣象局 API 資料
+            System.out.println("");            
+            System.out.println("==========C.用 Java http 撈取氣象局 API 資料==========");
             // ==========================
             String apiKey = "CWA-353EB937-29BD-48D6-8BA0-1C7285F822BC";
             String apiUrl = "https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization="
@@ -71,18 +79,18 @@ public class Main {
             System.out.println("API 回傳長度：" + json.length());
 
             // ==========================
-            // 2. 存成 UTF-8 JSON 檔
+            // C2. 存成 UTF-8 JSON 檔
             // ==========================
             Files.write(Paths.get("weather.json"), json.getBytes(StandardCharsets.UTF_8));
             System.out.println("已寫入 weather.json");
 
             // ==========================
-            // 3. 讀取 JSON
+            // C3. 讀取 JSON
             // ==========================
             String content = Files.readString(Paths.get("weather.json"), StandardCharsets.UTF_8);
 
             // ==========================
-            // 4. 解析 JSON（印出縣市）
+            // C4. 解析 JSON（印出縣市）
             // ==========================
             JSONObject root = new JSONObject(content);
             // JSONObject record = root.getJSONObject("records");
@@ -95,7 +103,35 @@ public class Main {
             JSONArray loc = root.getJSONObject("records").getJSONArray("location");
             String first = loc.getJSONObject(0).getString("locationName");
             System.out.println("第一個地點：" + first);
+            // ==========================
+            // D. 用 Java 傳送文字檔案到 Spring Boot server做紀錄
+            // ==========================
+            System.out.println("");
+            System.out.println("==========D.用Java傳送文字檔案到Spring Boot server作紀錄==========");
+            text("這是修改的訊息黑");            
+
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    static void text(String content){
+        try{
+            OkHttpClient client = new OkHttpClient();
+
+            // String content = "Hello, this is text records from JAVA!";
+
+            RequestBody body = RequestBody.create(
+                content,
+                MediaType.parse("text/plain; charset=utf-8"));
+            Request req = new Request.Builder()
+                .url("http://localhost:8080/saveText")
+                .post(body)
+                .build();
+
+            Response res = client.newCall(req).execute();
+            System.out.println(res.body().string());
+        }
+        catch(Exception e){
             e.printStackTrace();
         }
     }
