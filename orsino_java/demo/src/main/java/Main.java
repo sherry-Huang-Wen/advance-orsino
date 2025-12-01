@@ -20,24 +20,24 @@ public class Main {
             System.out.println("----POST測試開始------");
             //開啟瀏覽器
             OkHttpClient client2 = new OkHttpClient();
-            // JSON Body
-            String json2 = "{ \"name\": \"orsino\", \"text\": \"Hello!我要補證?\" }";
+            // 建立 Body資料夾 存放json格式字串
+            String json2 = "{ \"name\": \"sherry\", \"text\": \"Hello!我要補證?\" }";
             RequestBody body2 = RequestBody.create(
                 json2,
                 MediaType.parse("application/json; charset=utf-8")
             );
-            // 執行 request: POST (跑腿的任務)
+            // 執行 request: POST (跑腿的任務：把字串資料夾送到submit櫃台)
             Request postReq = new Request.Builder()
                 .url("http://localhost:8080/submit")
                 .post(body2) //設定為 POST 方法
                 .build();
-            // 印出 response json格式原始資料
+            // 呼叫瀏覽器，回傳櫃台結果：json格式原始資料
             Response postresponse = client2.newCall(postReq).execute(); //跑腿人員取得結果存於postresponse
-            String postResult = postresponse.body().string(); //json string(line24)包在body資料夾內
+            String postResult = postresponse.body().string(); //讀取postresponse body內的 json字串
             System.out.println("POST /submit 回傳：" + postResult);
-            // 印出 response json格式解析後資料
-            JSONObject root1 = new JSONObject(postResult); //解析json string
-            String message2 = root1.getString("message"); //從json object取出message欄位資料
+            // 回傳json格式解析後資料
+            JSONObject root1 = new JSONObject(postResult);    //解析json string
+            String message2 = root1.getString("message");     //從json object取出message欄位資料
             System.out.println("POST /submit 擷取：" + message2);
 
             System.out.println("----POST測試結束------");
