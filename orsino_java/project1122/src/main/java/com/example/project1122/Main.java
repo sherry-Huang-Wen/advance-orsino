@@ -26,11 +26,11 @@ public class Main {
     public String submit() {
         return "Get Form submitted.";
     }
-    //post送資料
+    //post送資料：繳交的物件msg from Message.java
     @PostMapping("/submit")
     public String string(@RequestBody Message msg) {
-        //msg是繳交的物件
-        //代收人員@RequestBody辨別物件mgs，包含name與text兩個欄位      
+
+        //代收人員@RequestBody辨別物件mgs，模擬json字串包含key:value欄位，name與text兩個字串內容
         return "{\"message\":\"收到來自 " + msg.name + " 的訊息: " + msg.text+ "\"}";
     }
 }
