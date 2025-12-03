@@ -11,15 +11,44 @@ import org.json.JSONArray;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
         try {
             // ========================== 
-            // A. 用 Java POST 給 Spring Boot submit櫃台回傳結果
+            // 0. 聊天室測試 (詢問name與text後呼叫api進行寫入 完成後讀取api顯示目前聊天紀錄)           
+            // Scanner / BIG5編碼讀取
+            Scanner scanner = new Scanner(System.in, "BIG5");
+            while(true){
+                System.out.println("請輸入您的名稱/或輸入quit結束:");
+                String name = scanner.nextLine(); 
+                
+
+                if(name.equals("quit")){
+                    break;
+                }
+                System.out.println("請輸入您的訊息:");
+                String text = scanner.nextLine();
+                text(name + " : " + text);
+                
+                String recordsJson = callAPIString("http://localhost:8080/allText");
+                System.out.println("目前聊天紀錄如下:");
+                System.out.println(recordsJson);
+            }
             // ==========================
+            System.out.println("");  
+            System.out.println("==========E用封裝的funciton 執行 get==========");          
+            // ==========================
+            String url5 = "http://localhost:8080/morning";
+            String body = callAPIString(url5);
+            System.out.println("聊天室回覆：" + body);
+            
+            // ========================== 
+           System.out.println("");
             System.out.println("==========A.用 Java POST 給 Spring Boot submit櫃台再回傳結果==========");
+            // ==========================            
             System.out.println("----POST測試開始------");
             //開啟瀏覽器
             OkHttpClient client2 = new OkHttpClient();
@@ -46,7 +75,6 @@ public class Main {
             System.out.println("----POST測試結束------");
 
             // ==========================
-            // B. 用 Java Get 撈取 Spring Boot API server 資料 Hello櫃台
             System.out.println("");            
             System.out.println("==========B.用 Java 撈取 Spring Boot API server Hello櫃台==========");
             // ==========================            
@@ -70,12 +98,13 @@ public class Main {
             String apiUrl = "https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization="
                     + apiKey;
 
-            OkHttpClient client = new OkHttpClient();
+            // OkHttpClient client = new OkHttpClient();
 
-            Request req = new Request.Builder().url(apiUrl).build();
-            Response res = client.newCall(req).execute();
+            // Request req = new Request.Builder().url(apiUrl).build();
+            // Response res = client.newCall(req).execute();
 
-            String json = res.body().string();
+            // String json = res.body().string();
+            String json = callAPIString(apiUrl);  //呼叫E方法
             System.out.println("API 回傳長度：" + json.length());
 
             // ==========================
@@ -108,12 +137,22 @@ public class Main {
             // ==========================
             System.out.println("");
             System.out.println("==========D.用Java傳送文字檔案到Spring Boot server作紀錄==========");
-            text("這是修改的訊息黑");            
+            text("這是12/3練習的訊息黑");            
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    // E. 將"用 Java http 撈取url資料並回傳"-封裝成方法
+    static String callAPIString(String apiUrl) throws Exception { 
+        OkHttpClient client = new OkHttpClient();
+
+        Request req = new Request.Builder().url(apiUrl).build();
+        Response res = client.newCall(req).execute();
+
+        return res.body().string();
+    }
+    // D.寫法
     static void text(String content){
         try{
             OkHttpClient client = new OkHttpClient();
