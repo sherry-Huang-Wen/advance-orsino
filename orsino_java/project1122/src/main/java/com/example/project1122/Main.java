@@ -27,8 +27,8 @@ public class Main {
     public String submit() {
         return "Get Form submitted.";
     }
-    //post送資料：繳交的物件msg from Message.java
-    // 代收人員@RequestBody辨別物件msg
+    //post送資料：json
+    // 代收人員@RequestBody辨別物件，Message class 宣告 msg
     @PostMapping("/submit")
     public String string(@RequestBody Message msg) {
 
