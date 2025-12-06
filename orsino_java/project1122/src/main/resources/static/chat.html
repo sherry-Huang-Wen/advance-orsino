@@ -118,6 +118,7 @@
                 if (response.ok) {
                     messageInput.value = '';
                     await loadMessages();
+                    //方法中呼叫另一個async方法，記得await
                 } else {
                     alert('Failed to send message.'); 
                     // Show an alert 錯誤訊息小視窗
