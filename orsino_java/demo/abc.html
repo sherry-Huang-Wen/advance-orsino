@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style></style>
+</head>
+<body>
+    <div id="app"></div>
+    <script>
+    // 1.宣告變數：const一次性宣告後不可更改、let可更改
+    // 2.await / async：用於處理非同步函數
+        const app = document.getElementById('app');
+        async function abc(){
+            const response = await fetch('https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWA-8D62D02F-C989-4C17-B78F-4F118910EE42');
+            
+            let result = await response.text();
+            app.innerHTML = result; //在網頁呈現
+            alert(result); //在小視窗呈現
+        }
+        abc();
+    </script>
+
+</body>
+</html>
