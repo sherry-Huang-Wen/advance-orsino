@@ -21,21 +21,24 @@ public class Main {
             // 0. 聊天室測試 (詢問name與text後呼叫api進行寫入 完成後讀取api顯示目前聊天紀錄)           
             // Scanner / BIG5編碼讀取
             Scanner scanner = new Scanner(System.in, "BIG5");
-            while(true){
-                System.out.println("請輸入您的名稱/或輸入quit結束:");
-                String name = scanner.nextLine(); 
-                
+            try {
+                while(true){
+                    System.out.println("請輸入您的名稱/或輸入quit結束:");
+                    String name = scanner.nextLine();                     
 
-                if(name.equals("quit")){
-                    break;
+                    if(name.equals("quit")){
+                        break;
+                    }
+                    System.out.println("請輸入您的訊息:");
+                    String text = scanner.nextLine();
+                    text(name + " : " + text);
+                    
+                    String recordsJson = callAPIString("http://localhost:8080/allText");
+                    System.out.println("目前聊天紀錄如下:");
+                    System.out.println(recordsJson);
                 }
-                System.out.println("請輸入您的訊息:");
-                String text = scanner.nextLine();
-                text(name + " : " + text);
-                
-                String recordsJson = callAPIString("http://localhost:8080/allText");
-                System.out.println("目前聊天紀錄如下:");
-                System.out.println(recordsJson);
+            } finally {
+                scanner.close();
             }
             // ==========================
             System.out.println("");  
