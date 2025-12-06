@@ -85,16 +85,16 @@
                 const response = await fetch('/allText');
                 if (response.ok) {
                     const text = await response.text();
-                    // Replace newlines with <br> tags for HTML rendering
+                    // Replace newlines字串 with <br> tags for HTML rendering
                     messagesDiv.innerHTML = text.replace(/\n/g, '<br>');
-                    // Scroll to the bottom
+                    // Scroll to the bottom 滾輪滾到文字最後一行(高度)
                     messagesDiv.scrollTop = messagesDiv.scrollHeight;
                 } else {
-                    messagesDiv.innerHTML = 'Error loading messages.';
+                    messagesDiv.innerHTML = 'Error loading.';
                 }
             } catch (error) {
                 console.error('Error fetching messages:', error);
-                messagesDiv.innerHTML = 'Error loading messages.';
+                messagesDiv.innerHTML = 'catch Error loading messages.';
             }
         }
         
@@ -102,7 +102,7 @@
             const message = messageInput.value.trim();
             // == 轉型後相等(寬鬆) eg. 5 == '5' 數字==文字的值 內容相等
             // ===完全相等(嚴格) eg. 5 === 5 datatype型別&內容都要相等
-            if (message === '') {
+            if (message === '') { // if (message型別為字串，並且內容為空)
                 return;
             }
 
