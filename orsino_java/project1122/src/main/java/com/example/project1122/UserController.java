@@ -1,26 +1,26 @@
 package com.example.project1122;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+// import org.springframework.boot.SpringApplication;
+// import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@SpringBootApplication
+// @SpringBootApplication
 @RestController
 @RequestMapping("/users")
-public class DemoApplication {
+public class UserController {
 
     private final UserRepository repo;
 
     // ✅ 建構子注入（最乾淨、最安全）
-    public DemoApplication(UserRepository repo) {
+    public UserController(UserRepository repo) {
         this.repo = repo;
     }
 
-    public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
-    }
+    // public static void main(String[] args) {
+    //     SpringApplication.run(DemoApplication.class, args);
+    // } 啟動功能移至 Project1122Application 主類別
 
     // ✅ C：新增
     @PostMapping

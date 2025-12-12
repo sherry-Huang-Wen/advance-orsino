@@ -3,11 +3,13 @@ package com.example.project1122;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "products")
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
-    public String name;
-    public String email;
+    public String productname;
+
+    @Column(name = "price")
+    public Long price;
 }
